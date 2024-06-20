@@ -44,13 +44,12 @@ app.get("/health", (req, res) => {
 });
 app.get("/", (req, res) => {
     res.status(200).send("Hello World!");
-    setInterval(callUrl_1.callUrl, 14 * 60 * 1000);
-    console.log(`Server is listening on port ${port}`);
 });
 // Start the server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log("Bot is operational and ready to receive messages.");
+    setInterval(callUrl_1.callUrl, 14 * 60 * 1000);
 });
 if (!process.env.BITVOCATION_BOT_TOKEN) {
     console.error("Please provide your bot's API key on the .env file.");
@@ -131,7 +130,8 @@ exports.bot.onText(/^\/(\w+)(@\w+)?(?:\s.\*)?/, async (msg, match) => {
             command.startsWith("/jobalert") ||
             command.startsWith("/privacy") ||
             command.startsWith("/help") ||
-            command.startsWith("/freeguide"))) {
+            command.startsWith("/freeguide") ||
+            command.startsWith("/feedback"))) {
             await exports.bot.sendMessage(msg.chat.id, (0, functions_1.formatVariables)(translation_1.TRANSLATIONS[userLanguage].errors["generic-error"], {
                 command,
             }), { reply_to_message_id: msg.message_id });
@@ -178,6 +178,23 @@ exports.bot.onText(/^\/(\w+)(@\w+)?(?:\s.\*)?/, async (msg, match) => {
                     },
                 };
                 await exports.bot.sendMessage(msg.chat.id, translation_1.TRANSLATIONS[userLanguage].general.donate, keyboard);
+            })();
+            break;
+        case "/feedback":
+            (async () => {
+                const keyboard = {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: "Give Feedback 📝",
+                                    url: "https://forms.gle/oTh1y48TuBenXUqd6",
+                                },
+                            ],
+                        ],
+                    },
+                };
+                await exports.bot.sendMessage(msg.chat.id, translation_1.TRANSLATIONS[userLanguage]["command-descriptions"].feedback, keyboard);
             })();
             break;
         case "/jobs":

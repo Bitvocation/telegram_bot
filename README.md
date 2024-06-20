@@ -65,4 +65,3 @@ GET /
 ```
 
 This route will respond with a status code of 200 and "Hello World!".
-```

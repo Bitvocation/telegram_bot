@@ -3,8 +3,8 @@
   "version": "0.1",
   "description": "",
   "scripts": {
-    "start": "tsx dist/main.js",
-    "build": "tsc && cp translations.json dist/translations.json"
+    "start": "tsc && cp translations.json dist/translations.json && node dist/main.js",
+    "dev": "ts-node src/main.ts"
   },
   "license": "MIT",
   "dependencies": {

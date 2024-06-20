@@ -18,20 +18,17 @@ function setBotCommands(bot) {
             command: "jobalert",
             description: translation_1.TRANSLATIONS[language]["command-descriptions"].jobalert,
         },
-        {
-            command: "value4value",
-            description: translation_1.TRANSLATIONS[language]["command-descriptions"].donate,
-        },
         // {
-        //     command: 'privacy',
-        //     description:
-        //   TRANSLATIONS[language][
-        //       'command-descriptions'
-        //   ].privacy,
+        //   command: "value4value",
+        //   description: TRANSLATIONS[language]["command-descriptions"].donate,
         // },
         {
             command: "freeguide",
             description: translation_1.TRANSLATIONS[language]["command-descriptions"].freeguide,
+        },
+        {
+            command: "feedback",
+            description: translation_1.TRANSLATIONS[language]["command-descriptions"].feedback,
         },
     ]);
 }

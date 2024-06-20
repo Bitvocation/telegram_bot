@@ -22,113 +22,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handlePrivacy = exports.deleteJobAlerts = exports.updateJobAlerts = exports.hasJobAlert = exports.readAllJobAlerts = exports.readUserEntry = exports.createUserEntry = exports.fetchAndPostLatestEntries = exports.calculateTimeRange = exports.sendParseMessage = exports.getKeyword = exports.getLatestJobs = exports.supabase = exports.formatVariables = exports.buildLastMessage = exports.generatePicture = exports.resetBotMemory = exports.switchLanguage = exports.getUserConfigs = exports.removeCommandNameFromCommand = exports.sleep = void 0;
+exports.handlePrivacy = exports.deleteJobAlerts = exports.updateJobAlerts = exports.hasJobAlert = exports.readAllJobAlerts = exports.readUserEntry = exports.createUserEntry = exports.fetchAndPostLatestEntries = exports.calculateTimeRange = exports.sendParseMessage = exports.getKeyword = exports.getLatestJobs = exports.supabase = exports.formatVariables = void 0;
 /* eslint-disable max-len */
-const openai_1 = require("openai");
-const fs_1 = __importDefault(require("fs"));
 const supabase_js_1 = require("@supabase/supabase-js");
 const date_fns_1 = require("date-fns");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-const openai = new openai_1.OpenAIApi(new openai_1.Configuration({ apiKey: process.env.OPENAI_API_KEY }));
-/** A simple async sleep function.
- * @example
- * await sleep(2000);
- * console.log('Two seconds have passed.');
- */
-function sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}
-exports.sleep = sleep;
-// /** Escapes a string for it to be used in a markdown message.
-//  * @param {string} input - The input message.
-//  * @returns {string} The escaped message.
-//  */
-// function escapeForMarkdown(input: string): string {
-//     return input.replace('_', '\\_')
-//         .replace('*', '\\*')
-//         .replace('[', '\\[')
-//         .replace('`', '\\`')
-//         .replace('.', '\\.');
-// }
-/** Removes the name of the command from the command's message.
- * @param {string} input - The raw message.
- * @returns {string} The message without the `/command`.
- */
-function removeCommandNameFromCommand(input) {
-    const ar = input.split(" ");
-    ar.shift();
-    return ar.join(" ");
-}
-exports.removeCommandNameFromCommand = removeCommandNameFromCommand;
-let lastMessage = "";
-/**
- * Retrieves the current user configurations from the file.
- * @returns {Record<string, UserConfig>} - The user configurations.
- */
-function getUserConfigs() {
-    return fs_1.default.existsSync("./user-config.json")
-        ? JSON.parse(fs_1.default.readFileSync("./user-config.json").toString())
-        : {};
-}
-exports.getUserConfigs = getUserConfigs;
-/**
- * Switches bot's language for a specific user.
- * @param {string} chatId - The unique identifier for the user.
- * @param {'en' | 'de' | string} language - The language the bot will now speak.
- */
-function switchLanguage(chatId, language) {
-    // Retrieve the current user configuration
-    let userConfigs = {};
-    if (fs_1.default.existsSync("./user-config.json")) {
-        userConfigs = JSON.parse(fs_1.default.readFileSync("./user-config.json").toString());
-    }
-    const userConfig = userConfigs[chatId] || { chatId, language: "" };
-    // Update the language for the specific user
-    userConfig.language = language;
-    // Save the updated user configuration
-    userConfigs[chatId] = userConfig;
-    fs_1.default.writeFileSync("./user-config.json", JSON.stringify(userConfigs, null, 2), "utf8");
-}
-exports.switchLanguage = switchLanguage;
-/** Resets the bot's memory about previous messages. */
-function resetBotMemory() {
-    lastMessage = "";
-}
-exports.resetBotMemory = resetBotMemory;
-/** Generates a picture using DALL·E 2.
- * @param {string} input - The prompt for the picture.
- * @returns {Promise<string>} The URL of the generated image.
- */
-async function generatePicture(input) {
-    return new Promise((resolve, reject) => {
-        openai
-            .createImage({
-            prompt: input,
-            response_format: "url",
-        })
-            .then((data) => {
-            resolve(data.data.data[0].url || "");
-        })
-            .catch((e) => reject(e));
-    });
-}
-exports.generatePicture = generatePicture;
-/** Formats the data about a message to be used later as a history for the AI in case
- * CONTINUOUS_CONVERSATION is `true`.
- * @param {string} lastUser - The username.
- * @param {string} lastInput - The message.
- * @param {string} lastAnswer - The AI's completion.
- * @returns {string} The formatted message.
- */
-function buildLastMessage(lastUser, lastInput, lastAnswer) {
-    return formatVariables(`${lastUser}: ###${lastInput}###\n$name: ###${lastAnswer}###\n`);
-}
-exports.buildLastMessage = buildLastMessage;
 /** Replace `$placeholders` for the actual values of the variables.
  * @example formatVariables("Hello, $username.", { username: "john" }) // "Hello, john."
  * @param {string} input - The unformatted string.
@@ -168,6 +68,7 @@ async function getLatestJobs(keywords) {
         if (!keywords) {
             return jobs;
         }
+        // TODO: Filter at supabase query  (islike param)
         const filteredJobs = jobs.filter((job) => keywords === null || keywords === void 0 ? void 0 : keywords.some((keyword) => Object.values(job)
             .filter((value) => typeof value === "string" || Array.isArray(value))
             .map((value) => (Array.isArray(value) ? value.join(" ") : value))

@@ -24,6 +24,7 @@ export type Translations = {
       jobalert: string;
       categories: string;
       freeguide: string;
+      feedback: string;
       privacy: string;
     };
     errors: {

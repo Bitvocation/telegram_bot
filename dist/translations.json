@@ -5,7 +5,7 @@
             "help": "Here are the commands you can use to work with me: \n\n",
             "language-switch": "Language is now english.",
             "donate": "Does my work make your life easier?\n\nSend some sats to my creators if you’d like to reward them in a value-for-value manner! They'll appreciate it and be able to provide me with more and more valuable features",
-            "latest-jobs":"In order to see the latest Bitcoin job listings, please choose one of the following options: ",
+            "latest-jobs": "In order to see the latest Bitcoin job listings, please choose one of the following options: ",
             "query-keywords": "Please enter what you are looking for, separated by commas \n\nFor example: Project Manager, UI/UX, Customer Support",
             "job-alert": "To set up a job alert, please enter keywords separated by commas to receive job alerts on these topics \n\nFor example: Remote, Customer Support, Pay in Bitcoin",
             "categories": "Please choose a category"
@@ -18,7 +18,8 @@
             "jobs": "Job Search Filters",
             "jobalert": "Set up (or delete) a job alert",
             "privacy": "Learn what data I use from you",
-            "freeguide":"Download the FREE GUIDE 'How to find your first job in Bitcoin'"
+            "freeguide": "Download the FREE GUIDE 'How to find your first job in Bitcoin'",
+            "feedback": "Send feedback to my creators"
         },
         "errors": {
             "generic-error": "An error occured :( \n\nPlease see our help message with /help.",
@@ -34,8 +35,8 @@
             "memory-reset": "Ich habe gerade alles vergessen.",
             "language-switch": "Die Sprache ist jetzt Deutsch.",
             "donate": "Wenn Ihnen dieses Projekt gefällt, können Sie uns hier unterstützen\n\nVielen Dank für Ihre Unterstützung!",
-            "btc-price":"Der aktuelle Preis von Bitcoin ist $price",
-            "latest-jobs":"Um die neuesten Bitcoin-Jobs zu sehen, wählen Sie bitte eine der folgenden Optionen: ",
+            "btc-price": "Der aktuelle Preis von Bitcoin ist $price",
+            "latest-jobs": "Um die neuesten Bitcoin-Jobs zu sehen, wählen Sie bitte eine der folgenden Optionen: ",
             "query-keywords": "Bitte geben Sie ein, wonach Sie suchen, getrennt durch Kommas \n\nZum Beispiel: Projektmanager, UI/UX, Kundensupport",
             "set-job-alert": "Bitte geben Sie Schlüsselwörter, durch Kommas getrennt ein, um Jobbenachrichtigungen zu diesen Themen zu erhalten \n\nZum Beispiel: Remote, Frontend, Full-time"
         },
@@ -80,5 +81,4 @@
             "invalid-language": "\"$language\" n'est pas une langue valide."
         }
     }
-    
 }

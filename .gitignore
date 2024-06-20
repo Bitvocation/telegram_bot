@@ -1,4 +1,5 @@
 node_modules/
+dist/
 tmp/
 .env
 pnpm-lock.yaml
@@ -6,3 +7,4 @@ user-config.json
 history.jsonl
 notes.txt
 docker bitcoin.txt
+dist/

@@ -137,7 +137,8 @@ bot.onText(/^\/(\w+)(@\w+)?(?:\s.\*)?/, async (msg, match) => {
         command.startsWith("/jobalert") ||
         command.startsWith("/privacy") ||
         command.startsWith("/help") ||
-        command.startsWith("/freeguide")
+        command.startsWith("/freeguide") ||
+        command.startsWith("/feedback")
       )
     ) {
       await bot.sendMessage(
@@ -199,6 +200,28 @@ bot.onText(/^\/(\w+)(@\w+)?(?:\s.\*)?/, async (msg, match) => {
         await bot.sendMessage(
           msg.chat.id,
           TRANSLATIONS[userLanguage].general.donate,
+          keyboard
+        );
+      })();
+
+      break;
+    case "/feedback":
+      (async () => {
+        const keyboard = {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Give Feedback 📝",
+                  url: "https://forms.gle/oTh1y48TuBenXUqd6",
+                },
+              ],
+            ],
+          },
+        };
+        await bot.sendMessage(
+          msg.chat.id,
+          TRANSLATIONS[userLanguage]["command-descriptions"].feedback,
           keyboard
         );
       })();
