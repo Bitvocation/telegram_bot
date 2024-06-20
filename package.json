@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "tsc && cp translations.json dist/translations.json && node dist/main.js",
-    "dev": "ts-node src/main.ts"
+    "dev": "ts-node src/main.ts",
+    "build": "tsc"
   },
   "license": "MIT",
   "dependencies": {
