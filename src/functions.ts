@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { format } from "date-fns";
 import * as dotenv from "dotenv";
 import { SendMessageOptions } from "node-telegram-bot-api";
+import { utmParams } from "./constants";
 
 dotenv.config();
 
@@ -141,7 +142,13 @@ async function sendMessagePart(
   keywords: string[]
 ) {
   const catStrings = responsePart.map((entry: any) => {
-    let catString = `\n <a href="${entry.url}"><b>${entry.title}</b></a>`;
+    // Check if entry.url already contains query parameters
+    let utmSeparator = entry.url.includes("?") ? "&" : "?";
+
+    // Append UTM parameters to the URL
+    const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+
+    let catString = `\n <a href="${urlWithUtm}"><b>${entry.title}</b></a>`;
 
     catString += `\n 📅 From the: <b>${format(
       new Date(entry.created_at),
@@ -409,9 +416,15 @@ export async function deleteJobAlerts(chatId: string) {
   }
 }
 const sendSingleJob = async (chatId: string, entry: any, bot: any) => {
+  // Check if entry.url already contains query parameters
+  let utmSeparator = entry.url.includes("?") ? "&" : "?";
+
+  // Append UTM parameters to the URL
+  const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+
   try {
     let message = `
-              🟠  <a href="${entry.url}"><b>${entry.title}</b></a>\n`;
+              🟠  <a href="${urlWithUtm}"><b>${entry.title}</b></a>\n`;
     if (entry.company) {
       message += `\nCompany: <b>${entry.company}</b>`;
     }

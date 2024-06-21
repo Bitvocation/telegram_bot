@@ -127,7 +127,12 @@ async function sendParseMessage(chatId, response, bot, keywords) {
 exports.sendParseMessage = sendParseMessage;
 async function sendMessagePart(chatId, responsePart, bot, keywords) {
     const catStrings = responsePart.map((entry) => {
-        let catString = `\n <a href="${entry.url}"><b>${entry.title}</b></a>`;
+        // Check if entry.url already contains query parameters
+        let utmSeparator = entry.url.includes("?") ? "&" : "?";
+        // Append UTM parameters to the URL
+        const utmParams = `utm_source=BITV&utm_campaign=TELEGRAM&utm_medium=BOT`;
+        const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+        let catString = `\n <a href="${urlWithUtm}"><b>${entry.title}</b></a>`;
         catString += `\n 📅 From the: <b>${(0, date_fns_1.format)(new Date(entry.created_at), "dd.MM.yyyy")}</b>`;
         if (entry.company) {
             catString += `\n 🏢 Company: <b>${entry.company}</b>`;
@@ -360,9 +365,14 @@ async function deleteJobAlerts(chatId) {
 }
 exports.deleteJobAlerts = deleteJobAlerts;
 const sendSingleJob = async (chatId, entry, bot) => {
+    // Check if entry.url already contains query parameters
+    let utmSeparator = entry.url.includes("?") ? "&" : "?";
+    // Append UTM parameters to the URL
+    const utmParams = `utm_source=BITV&utm_campaign=TELEGRAM&utm_medium=BOT`;
+    const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
     try {
         let message = `
-              🟠  <a href="${entry.url}"><b>${entry.title}</b></a>\n`;
+              🟠  <a href="${urlWithUtm}"><b>${entry.title}</b></a>\n`;
         if (entry.company) {
             message += `\nCompany: <b>${entry.company}</b>`;
         }
