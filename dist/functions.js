@@ -28,6 +28,7 @@ exports.handlePrivacy = exports.deleteJobAlerts = exports.updateJobAlerts = expo
 const supabase_js_1 = require("@supabase/supabase-js");
 const date_fns_1 = require("date-fns");
 const dotenv = __importStar(require("dotenv"));
+const constants_1 = require("./constants");
 dotenv.config();
 /** Replace `$placeholders` for the actual values of the variables.
  * @example formatVariables("Hello, $username.", { username: "john" }) // "Hello, john."
@@ -130,8 +131,7 @@ async function sendMessagePart(chatId, responsePart, bot, keywords) {
         // Check if entry.url already contains query parameters
         let utmSeparator = entry.url.includes("?") ? "&" : "?";
         // Append UTM parameters to the URL
-        const utmParams = `utm_source=BITV&utm_campaign=TELEGRAM&utm_medium=BOT`;
-        const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+        const urlWithUtm = `${entry.url}${utmSeparator}${constants_1.utmParams}`;
         let catString = `\n <a href="${urlWithUtm}"><b>${entry.title}</b></a>`;
         catString += `\n 📅 From the: <b>${(0, date_fns_1.format)(new Date(entry.created_at), "dd.MM.yyyy")}</b>`;
         if (entry.company) {
@@ -368,8 +368,7 @@ const sendSingleJob = async (chatId, entry, bot) => {
     // Check if entry.url already contains query parameters
     let utmSeparator = entry.url.includes("?") ? "&" : "?";
     // Append UTM parameters to the URL
-    const utmParams = `utm_source=BITV&utm_campaign=TELEGRAM&utm_medium=BOT`;
-    const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+    const urlWithUtm = `${entry.url}${utmSeparator}${constants_1.utmParams}`;
     try {
         let message = `
               🟠  <a href="${urlWithUtm}"><b>${entry.title}</b></a>\n`;

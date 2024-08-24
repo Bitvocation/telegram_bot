@@ -7,7 +7,7 @@ exports.callUrl = void 0;
 const axios_1 = __importDefault(require("axios"));
 async function callUrl() {
     try {
-        const bitvocationResponse = await axios_1.default.get("https://bitvocation-bot-2-2.onrender.com/health");
+        const bitvocationResponse = await axios_1.default.get("https://bitvocation-bot-2-4.onrender.com/health");
         console.log("URL called successfully bitvocation_bot:");
     }
     catch (error) {
