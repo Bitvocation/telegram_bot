@@ -123,7 +123,7 @@ export async function sendParseMessage(
 ) {
   if (response !== null && response !== undefined && response.length > 0) {
     let index = 0;
-    const chunkSize = 35;
+    const chunkSize = 20;
 
     while (index < response.length) {
       const chunk = response.slice(index, index + chunkSize);
@@ -142,13 +142,9 @@ async function sendMessagePart(
   keywords: string[]
 ) {
   const catStrings = responsePart.map((entry: any) => {
-    // Check if entry.url already contains query parameters
-    let utmSeparator = entry.url.includes("?") ? "&" : "?";
+    const url = entry.telegram_short_url || entry.url;
 
-    // Append UTM parameters to the URL
-    const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
-
-    let catString = `\n <a href="${urlWithUtm}"><b>${entry.title}</b></a>`;
+    let catString = `\n <a href="${url}"><b>${entry.title}</b></a>`;
 
     catString += `\n 📅 From the: <b>${format(
       new Date(entry.created_at),
@@ -417,14 +413,11 @@ export async function deleteJobAlerts(chatId: string) {
 }
 const sendSingleJob = async (chatId: string, entry: any, bot: any) => {
   // Check if entry.url already contains query parameters
-  let utmSeparator = entry.url.includes("?") ? "&" : "?";
-
-  // Append UTM parameters to the URL
-  const urlWithUtm = `${entry.url}${utmSeparator}${utmParams}`;
+  const url = entry.telegram_short_url || entry.url;
 
   try {
     let message = `
-              🟠  <a href="${urlWithUtm}"><b>${entry.title}</b></a>\n`;
+              🟠  <a href="${url}"><b>${entry.title}</b></a>\n`;
     if (entry.company) {
       message += `\nCompany: <b>${entry.company}</b>`;
     }

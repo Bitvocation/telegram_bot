@@ -28,7 +28,6 @@ exports.handlePrivacy = exports.deleteJobAlerts = exports.updateJobAlerts = expo
 const supabase_js_1 = require("@supabase/supabase-js");
 const date_fns_1 = require("date-fns");
 const dotenv = __importStar(require("dotenv"));
-const constants_1 = require("./constants");
 dotenv.config();
 /** Replace `$placeholders` for the actual values of the variables.
  * @example formatVariables("Hello, $username.", { username: "john" }) // "Hello, john."
@@ -114,7 +113,7 @@ exports.getKeyword = getKeyword;
 async function sendParseMessage(chatId, response, bot, keywords) {
     if (response !== null && response !== undefined && response.length > 0) {
         let index = 0;
-        const chunkSize = 35;
+        const chunkSize = 20;
         while (index < response.length) {
             const chunk = response.slice(index, index + chunkSize);
             await sendMessagePart(chatId, chunk, bot, keywords);
@@ -128,11 +127,8 @@ async function sendParseMessage(chatId, response, bot, keywords) {
 exports.sendParseMessage = sendParseMessage;
 async function sendMessagePart(chatId, responsePart, bot, keywords) {
     const catStrings = responsePart.map((entry) => {
-        // Check if entry.url already contains query parameters
-        let utmSeparator = entry.url.includes("?") ? "&" : "?";
-        // Append UTM parameters to the URL
-        const urlWithUtm = `${entry.url}${utmSeparator}${constants_1.utmParams}`;
-        let catString = `\n <a href="${urlWithUtm}"><b>${entry.title}</b></a>`;
+        const url = entry.telegram_short_url || entry.url;
+        let catString = `\n <a href="${url}"><b>${entry.title}</b></a>`;
         catString += `\n 📅 From the: <b>${(0, date_fns_1.format)(new Date(entry.created_at), "dd.MM.yyyy")}</b>`;
         if (entry.company) {
             catString += `\n 🏢 Company: <b>${entry.company}</b>`;
@@ -366,12 +362,10 @@ async function deleteJobAlerts(chatId) {
 exports.deleteJobAlerts = deleteJobAlerts;
 const sendSingleJob = async (chatId, entry, bot) => {
     // Check if entry.url already contains query parameters
-    let utmSeparator = entry.url.includes("?") ? "&" : "?";
-    // Append UTM parameters to the URL
-    const urlWithUtm = `${entry.url}${utmSeparator}${constants_1.utmParams}`;
+    const url = entry.telegram_short_url || entry.url;
     try {
         let message = `
-              🟠  <a href="${urlWithUtm}"><b>${entry.title}</b></a>\n`;
+              🟠  <a href="${url}"><b>${entry.title}</b></a>\n`;
         if (entry.company) {
             message += `\nCompany: <b>${entry.company}</b>`;
         }
