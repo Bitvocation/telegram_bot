@@ -149,12 +149,15 @@ async function sendMessagePart(chatId, responsePart, bot, keywords) {
         await bot.sendMessage(chatId, message, options);
     }
 }
-function calculateTimeRange() {
+function calculateTimeRange(days) {
     const now = new Date();
+    // Start of the target range (7 days ago)
     const pastDayStart = new Date(now);
-    pastDayStart.setHours(0, 0, 0, 0); // Set to the beginning of the day
+    pastDayStart.setDate(now.getDate() - days); // Subtract the number of days
+    pastDayStart.setHours(0, 0, 0, 0); // Set to the start of that day (midnight)
+    // End of the current day (now)
     const pastDayEnd = new Date(now);
-    pastDayEnd.setHours(23, 59, 59, 999); // Set to the end of the day
+    pastDayEnd.setHours(23, 59, 59, 999); // Set to the end of today
     return {
         pastDayStart,
         pastDayEnd,
@@ -165,7 +168,7 @@ async function fetchAndPostLatestEntries(bot) {
     const channelID = "-1001969684625";
     console.log("--------------------New Fetch started--------------------");
     try {
-        const { pastDayStart, pastDayEnd } = calculateTimeRange();
+        const { pastDayStart, pastDayEnd } = calculateTimeRange(7);
         const { data, error } = await exports.supabase
             .from("job_table")
             .select("*")
