@@ -51,13 +51,13 @@ export const bot = new TelegramBot(process.env.BITVOCATION_BOT_TOKEN, {
 setBotCommands(bot);
 let waitingForKeywords = false;
 let setJobAlert = false;
-const fetchInterval = 3 * 60 * 60 * 1000;
-setInterval(() => {
-  // this is the bread and butter
-  fetchAndPostLatestEntries(bot);
-}, fetchInterval);
+// const fetchInterval = 3 * 60 * 60 * 1000;
+// setInterval(() => {
+//   // this is the bread and butter
+//   fetchAndPostLatestEntries(bot);
+// }, fetchInterval);
 
-fetchAndPostLatestEntries(bot);
+// fetchAndPostLatestEntries(bot);
 
 // Messages for conversations.
 bot.on("message", async (msg) => {
