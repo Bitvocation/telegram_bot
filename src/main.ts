@@ -16,7 +16,6 @@ import {
 import { TRANSLATIONS } from "./translation";
 import { setBotCommands } from "./setBotCommands";
 import express from "express";
-import { callUrl } from "./callUrl";
 dotenv.config();
 
 const app = express();
@@ -31,20 +30,20 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-  console.log("Bot is operational and ready to receive messages.");
-  setInterval(callUrl, 14 * 60 * 1000);
-});
-
 if (!process.env.BITVOCATION_BOT_TOKEN) {
   console.error("Please provide your bot's API key on the .env file.");
   process.exit();
 }
 
+// Configure bot with simple polling options to address ETIMEDOUT issues
 export const bot = new TelegramBot(process.env.BITVOCATION_BOT_TOKEN, {
-  polling: true,
+  polling: {
+    interval: 2000, // Poll every 2 seconds (increased from default)
+    autoStart: true,
+    params: {
+      timeout: 30 // Long polling timeout in seconds (reduced from 60)
+    }
+  }
 });
 
 setBotCommands(bot);
