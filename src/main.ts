@@ -1,11 +1,9 @@
 /* eslint-disable max-len */
 import * as dotenv from "dotenv";
-dotenv.config();
 import TelegramBot from "node-telegram-bot-api";
 import {
   createUserEntry,
   deleteJobAlerts,
-  fetchAndPostLatestEntries,
   formatVariables,
   getKeyword,
   getLatestJobs,
@@ -19,6 +17,7 @@ import { TRANSLATIONS } from "./translation";
 import { setBotCommands } from "./setBotCommands";
 import express from "express";
 import { callUrl } from "./callUrl";
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3030;
